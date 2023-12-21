@@ -1,9 +1,9 @@
-﻿using API_Pessoa.Persistence;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API_Pessoa.Entities;
+using API_Pessoa.cad_Cliente.Entities;
+using API_Pessoa.cad_Cliente.Persistence;
 
-namespace API_Pessoa.Controllers
+namespace API_Pessoa.cad_Cliente.Controller
 {
     [Route("api")]
     [ApiController]

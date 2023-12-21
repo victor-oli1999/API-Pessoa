@@ -1,4 +1,5 @@
-using API_Pessoa.Persistence;
+using API_Pessoa.cad_Cliente.Persistence;
+using API_Pessoa.cad_Pessoa.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

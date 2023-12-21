@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using API_Pessoa.Entities;
+using API_Pessoa.cad_Pessoa.Entities;
 
-namespace API_Pessoa.Persistence
+namespace API_Pessoa.cad_Pessoa.Persistence
 {
     public class PessoaContext : DbContext
     {
@@ -12,7 +12,7 @@ namespace API_Pessoa.Persistence
             modelBuilder.Entity<Pessoa>()
                 .ToTable("cad_Pessoa")
                 .HasKey(x => x.IdPessoa);
-            
+
             base.OnModelCreating(modelBuilder);
         }
     }

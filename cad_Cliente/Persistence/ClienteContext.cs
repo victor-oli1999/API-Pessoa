@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using API_Pessoa.Entities;
-using API_Pessoa.Objt;
+using API_Pessoa.cad_Cliente.Entities;
+using API_Pessoa.cad_Cliente.Objt;
 
-namespace API_Pessoa.Persistence
+namespace API_Pessoa.cad_Cliente.Persistence
 {
     public class ClienteContext : DbContext
     {

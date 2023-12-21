@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace API_Pessoa.Objt
+namespace API_Pessoa.cad_Cliente.Objt
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TipoClienteTypes : byte
