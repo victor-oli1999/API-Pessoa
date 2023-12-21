@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
-using API_Pessoa.Entities;
+using API_Pessoa.cad_Cliente.Entities;
 
 namespace API_Pessoa.Entities_Config
 {
