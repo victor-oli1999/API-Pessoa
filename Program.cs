@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Access to the database
 var PessoaContextConnectionString = builder.Configuration.GetConnectionString("Trabalho");
 builder.Services.AddDbContext<PessoaContext>(o => o.UseSqlServer(PessoaContextConnectionString));
-
+builder.Services.AddDbContext<ClienteContext>(o => o.UseSqlServer(PessoaContextConnectionString));
 // Add services to the container.
 
 builder.Services.AddControllers();
