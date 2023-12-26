@@ -1,6 +1,11 @@
 using API_Pessoa.cad_Cliente.Persistence;
 using API_Pessoa.cad_Pessoa.Persistence;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using API_Pessoa.cad_Pessoa.Mappers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +14,8 @@ var PessoaContextConnectionString = builder.Configuration.GetConnectionString("T
 builder.Services.AddDbContext<PessoaContext>(o => o.UseSqlServer(PessoaContextConnectionString));
 builder.Services.AddDbContext<ClienteContext>(o => o.UseSqlServer(PessoaContextConnectionString));
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(PessoaProfile));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

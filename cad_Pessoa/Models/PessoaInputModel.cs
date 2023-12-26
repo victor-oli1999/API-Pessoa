@@ -1,20 +1,15 @@
-﻿using System.Runtime.ConstrainedExecution;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_Pessoa.cad_Pessoa.Entities
+namespace API_Pessoa.cad_Pessoa.Models
 {
-    public class Pessoa
+    public class PessoaInputModel
     {
-        public int IdPessoa { get; set; }
-        public string? Codigo { get; set; }
         public int IdUsuario_Criacao { get; set; }
         public string Nome { get; set; }
         public string? Nome_Fantasia { get; set; }
         [Range(1, 3)]
         public byte Tipo { get; set; }
         public bool Tipo_Pessoa { get; set; }
-        public DateTime Data_Criacao { get; set; }
         public string? Cpf_Cnpj { get; set; }
         public string? Fone { get; set; }
         public string? Cep { get; set; }
@@ -24,6 +19,5 @@ namespace API_Pessoa.cad_Pessoa.Entities
         public short? IdMunicipio { get; set; }
         public short? IdUnidade_Federativa { get; set; }
         public short? IdPais { get; set; }
-        public bool Ativo { get; set; }
     }
 }
