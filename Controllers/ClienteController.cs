@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using API_Pessoa.cad_Cliente.Entities;
 using API_Pessoa.cad_Cliente.Persistence;
 
-namespace API_Pessoa.cad_Cliente.Controller
+namespace API_Pessoa.Controllers
 {
     [Route("api")]
     [ApiController]
