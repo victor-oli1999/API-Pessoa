@@ -9,7 +9,7 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Access to the database
-var PessoaContextConnectionString = builder.Configuration.GetConnectionString("Casa");
+//var PessoaContextConnectionString = builder.Configuration.GetConnectionString("Casa");
 
 builder.Services.AddDbContext<DBContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString(nameof(DBContext))));
 
