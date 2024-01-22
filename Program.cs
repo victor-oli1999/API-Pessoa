@@ -1,8 +1,7 @@
-using API_Pessoa.cad_Cliente.Persistence;
-using API_Pessoa.cad_Pessoa.Persistence;
+using API_Pessoa.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using API_Pessoa.cad_Pessoa.Mappers;
+//using API_Pessoa.Core.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,11 +9,12 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Access to the database
-var PessoaContextConnectionString = builder.Configuration.GetConnectionString("Trabalho");
-builder.Services.AddDbContext<PessoaContext>(o => o.UseSqlServer(PessoaContextConnectionString));
-builder.Services.AddDbContext<ClienteContext>(o => o.UseSqlServer(PessoaContextConnectionString));
+//var PessoaContextConnectionString = builder.Configuration.GetConnectionString("Casa");
+
+builder.Services.AddDbContext<DBContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString(nameof(DBContext))));
+
 // Add services to the container.
-builder.Services.AddAutoMapper(typeof(PessoaProfile));
+//builder.Services.AddAutoMapper(typeof(PessoaProfile));
 
 
 builder.Services.AddControllers();

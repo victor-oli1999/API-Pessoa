@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API_Pessoa.cad_Cliente.Entities;
-using API_Pessoa.cad_Cliente.Persistence;
+using API_Pessoa.Core.Entities;
+using API_Pessoa.Data.Context;
 
-namespace API_Pessoa.cad_Cliente.Controller
+
+namespace API_Pessoa.Controllers
 {
     [Route("api")]
     [ApiController]
     public class ClienteController : ControllerBase
     {
-        private readonly ClienteContext _context;
+        private readonly DBContext _context;
 
-        public ClienteController(ClienteContext context)
+        public ClienteController(DBContext context)
         {
             _context = context;
         }
@@ -19,14 +20,14 @@ namespace API_Pessoa.cad_Cliente.Controller
         [HttpGet("Clientes")]
         public List<Cliente> Clientes()
         {
-            var Clientes = _context.Clientes.ToList();
+            var Clientes = _context.Set<Cliente>().ToList();
 
             return Clientes;
         }
         [HttpGet("Clientes/{id}")]
         public async Task<IActionResult> Cliente(int id)
         {
-            var clientesPorID = await _context.Clientes.FirstOrDefaultAsync(x => x.IdCliente == id);
+            var clientesPorID = await _context.Set<Cliente>().FirstOrDefaultAsync(x => x.IdCliente == id);
 
             if (clientesPorID == null)
                 return NotFound(new { Error = "Cliente não encontrado." });

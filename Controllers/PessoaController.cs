@@ -1,39 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API_Pessoa.cad_Pessoa.Entities;
-using API_Pessoa.cad_Pessoa.Persistence;
-using API_Pessoa.cad_Pessoa.Models;
-using API_Pessoa.cad_Pessoa.Mappers;
+using API_Pessoa.Core.Entities;
+using API_Pessoa.Data.Context;
+using API_Pessoa.Core.DTOs;
 using System.Reflection.Metadata.Ecma335;
 using AutoMapper;
 using System.Collections;
 
-namespace API_Pessoa.cad_Pessoa.Controllers
+namespace API_Pessoa.Controllers
 {
     [Route("api")]
     [ApiController]
     public class PessoaController : ControllerBase
     {
-        private readonly PessoaContext _context;
-        private readonly IMapper _mapper;
+        private readonly DBContext _context;
+        //private readonly IMapper _mapper;
 
-        public PessoaController(PessoaContext context, IMapper mapper)
+        public PessoaController(DBContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         [HttpGet("Pessoas")]
         public List<Pessoa> Pessoas()
         {
-            var Pessoas = _context.Pessoas.ToList();
+            var Pessoas = _context.Set<Pessoa>().ToList();
 
             return Pessoas;
         }
         [HttpGet("Pessoas/{id}")]
         public async Task<IActionResult> Pessoa(int id)
         {
-            var pessoaPorID = await _context.Pessoas.FirstOrDefaultAsync(x => x.IdPessoa == id);
+            var pessoaPorID = await _context.Set<Pessoa>().FirstOrDefaultAsync(x => x.IdPessoa == id);
 
             if (pessoaPorID == null)
                 return NotFound(new { Error = "Pessoa não encontrada." });
@@ -41,34 +39,34 @@ namespace API_Pessoa.cad_Pessoa.Controllers
             return Ok(pessoaPorID);
         }
 
-        [HttpPost("Pessoa/Insert")]
-        public IActionResult InsertPessoa(PessoaInputModel input)
-        {
-            var pessoaInput = _mapper.Map<Pessoa>(input);
+        //[HttpPost("Pessoa/Insert")]
+        //public IActionResult InsertPessoa(PessoaInputModel input)
+        //{
+        //    var pessoaInput = _mapper.Map<Pessoa>(input);
 
-            pessoaInput.IdPessoa = novoIdPessoa();
-            pessoaInput.Codigo = novoCodigo();
-            pessoaInput.Data_Criacao = PegaHoraBrasilia();
-            pessoaInput.Ativo = true;
+        //    pessoaInput.IdPessoa = novoIdPessoa();
+        //    pessoaInput.Codigo = novoCodigo();
+        //    pessoaInput.Data_Criacao = PegaHoraBrasilia();
+        //    pessoaInput.Ativo = true;
 
-            if (pessoaInput.IdPais == 0)
-            {
-                pessoaInput.IdPais = null;
-            } 
-            if (pessoaInput.IdUnidade_Federativa == 0) 
-            {
-                pessoaInput.IdUnidade_Federativa = null;
-            } 
-            if (pessoaInput.IdMunicipio == 0)
-            {
-                pessoaInput.IdMunicipio = null;
-            }
+        //    if (pessoaInput.IdPais == 0)
+        //    {
+        //        pessoaInput.IdPais = null;
+        //    }
+        //    if (pessoaInput.IdUnidade_Federativa == 0)
+        //    {
+        //        pessoaInput.IdUnidade_Federativa = null;
+        //    }
+        //    if (pessoaInput.IdMunicipio == 0)
+        //    {
+        //        pessoaInput.IdMunicipio = null;
+        //    }
 
-            _context.Pessoas.Add(pessoaInput);
-            _context.SaveChanges();
+        //    _context.Set<Pessoa>().Add(pessoaInput);
+        //    _context.SaveChanges();
 
-            return Ok(pessoaInput);
-        }
+        //    return Ok(pessoaInput);
+        //}
 
 
 
@@ -76,7 +74,7 @@ namespace API_Pessoa.cad_Pessoa.Controllers
         [HttpGet("Pessoa/novoIdPessoa")]
         public int novoIdPessoa()
         {
-            var ultimoIdPessoa = _context.Pessoas.OrderBy(x => x.IdPessoa).LastOrDefault();
+            var ultimoIdPessoa = _context.Set<Pessoa>().OrderBy(x => x.IdPessoa).LastOrDefault();
             int novoIdPessoa = ultimoIdPessoa.IdPessoa + 1;
 
             return novoIdPessoa;
@@ -84,7 +82,7 @@ namespace API_Pessoa.cad_Pessoa.Controllers
 
         [HttpGet("PegaHoraBrasilia")]
         public DateTime PegaHoraBrasilia() => TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"));
-        
+
         [HttpGet("Pessoa/novoCodigo")]
         public string novoCodigo()
         {
@@ -112,13 +110,13 @@ namespace API_Pessoa.cad_Pessoa.Controllers
             }
             return codigo;
         }
-        [HttpGet("Pessoa/{cpfCnpj}")]
-        public IEnumerable VerificaCpfCnpj(string cpfCnpj)
-        {
-            IEnumerable teste = _context.Pessoas.Where(x => x.Cpf_Cnpj == cpfCnpj.ToString()).ToList();
+        //[HttpGet("Pessoa/{cpfCnpj}")]
+        //public IEnumerable VerificaCpfCnpj(string cpfCnpj)
+        //{
+        //    IEnumerable teste = _context.Set<Pessoa>().Where(x => x.Cpf_Cnpj == cpfCnpj.ToString()).ToList();
 
-            return teste;
-        }
+        //    return teste;
+        //}
 
         /* Utilizar como base para inserir demais cadastros */
         [HttpGet("Teste")]
@@ -126,6 +124,21 @@ namespace API_Pessoa.cad_Pessoa.Controllers
         {
             var test = Pessoas();
             return Ok(test);
+        }
+        /* TESTES DE FILTRAGEM */
+
+        [HttpGet("Pessoas/{nome}/{idPais}")]
+        public IActionResult Filtros(string nome, int idPais)
+        {
+            IQueryable<Pessoa> query = _context.Set<Pessoa>();
+
+            if (nome != null)
+                query = query.Where(x => x.Nome == nome);
+            if (idPais != 0)
+                query = query.Where(x => x.IdPais == idPais);
+
+
+            return Ok(query.ToList());
         }
     }
 }
